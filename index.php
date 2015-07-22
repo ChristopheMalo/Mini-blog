@@ -9,8 +9,8 @@
     </head>
     <body>
         <div class="container">
-            <h1 class="row">Les derniers billets du blog</h1>
-
+            <h1 class="row">Un blog basique</h1>
+            <h2 class="row">Les derniers billets du blog</h2>
             <!-- Afficher les messages par page -->
             <section class="row">
                 <?php
