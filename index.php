@@ -74,8 +74,8 @@
                 //$limit_start = (int) (($current_page * $limit_messages_per_page) - $limit_messages_per_page); // Solution 1
                 $limit_start = (int) (($current_page -1) * $limit_billets_per_page); // Solution 2
                 
-                // Requête préparée pour récupérer tous les messages
-                $req = $bdd->query("SELECT id, titre, contenu, date_creation_billet
+                // Requête préparée pour récupérer tous les messages - Formatage de la date dans la requête SQL
+                $req = $bdd->query("SELECT id, titre, contenu, DATE_FORMAT(date_creation_billet, \'%d/%m/%Y à %Hh%imin%ss\') AS date_creation_billet_fr
                                     FROM billets
                                     ORDER by id DESC
                                     LIMIT $limit_start,$limit_billets_per_page
@@ -84,18 +84,14 @@
                 
                 // Afficher les messages
                 while ($datas = $req->fetch()) {
-                    // Formater la date en FR - à partir de PHP 5.4
-                    $new_date_format = (new DateTime($datas['date_creation_billet']))->format('d/m/Y à H:i:s');
                 ?>
-             
-                <div class="panel panel-default">
-                    <div class="panel-heading"><p><strong><?php echo htmlspecialchars(strip_tags($datas['titre'])); ?></strong> - Le <em><?php echo $new_date_format ; ?></em></p></div>
-                    <div class="panel-body">
-                        <p>-> <?php echo /*$datas['id'] . ' ' . */ htmlspecialchars(strip_tags($datas['contenu'])); ?></p>
-                        <p><a href="pages/commentaires.php">Commentaires</a></p>
-                    </div>
-                </div>
-                                
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><p><strong><?php echo htmlspecialchars(strip_tags($datas['titre'])); ?></strong> - Le <em><?php echo $datas['date_creation_billet_fr'] ; ?></em></p></div>
+                        <div class="panel-body">
+                            <p>-> <?php echo /*$datas['id'] . ' ' . */ htmlspecialchars(strip_tags($datas['contenu'])); ?></p>
+                            <p><a href="pages/commentaires.php">Commentaires</a></p>
+                        </div>
+                    </div>          
                 <?php    
                 }
                 
