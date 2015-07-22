@@ -74,8 +74,12 @@
                 //$limit_start = (int) (($current_page * $limit_messages_per_page) - $limit_messages_per_page); // Solution 1
                 $limit_start = (int) (($current_page -1) * $limit_billets_per_page); // Solution 2
                 
-                // Requête préparée pour récupérer tous les messages - Formatage de la date dans la requête SQL
-                $req = $bdd->query("SELECT id, titre, contenu, DATE_FORMAT(date_creation_billet, \'%d/%m/%Y à %Hh%imin%ss\') AS date_creation_billet_fr
+                /*
+                 * Requête préparée pour récupérer tous les messages
+                 * Formatage de la date dans la requête SQL
+                 * Attention pour la version serveur MySQL 5.5.*
+                 */
+                $req = $bdd->query("SELECT id, titre, contenu, DATE_FORMAT(date_creation_billet, '%d/%m/%Y à %Hh%imin%ss') AS date_creation_billet_fr
                                     FROM billets
                                     ORDER by id DESC
                                     LIMIT $limit_start,$limit_billets_per_page
@@ -86,7 +90,7 @@
                 while ($datas = $req->fetch()) {
                 ?>
                     <div class="panel panel-default">
-                        <div class="panel-heading"><p><strong><?php echo htmlspecialchars(strip_tags($datas['titre'])); ?></strong> - Le <em><?php echo $datas['date_creation_billet_fr'] ; ?></em></p></div>
+                        <div class="panel-heading"><p><strong><?php echo htmlspecialchars(strip_tags($datas['titre'])); ?></strong> - <em>Le <?php echo $datas['date_creation_billet_fr'] ; ?></em></p></div>
                         <div class="panel-body">
                             <p>-> <?php echo /*$datas['id'] . ' ' . */ htmlspecialchars(strip_tags($datas['contenu'])); ?></p>
                             <p><a href="pages/commentaires.php">Commentaires</a></p>
