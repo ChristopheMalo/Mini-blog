@@ -93,7 +93,7 @@
                         <div class="panel-heading"><p><strong><?php echo htmlspecialchars(strip_tags($datas['titre'])); ?></strong> - <em>Le <?php echo $datas['date_creation_billet_fr'] ; ?></em></p></div>
                         <div class="panel-body">
                             <p><?php echo /*$datas['id'] . ' ' . */ nl2br(htmlspecialchars(strip_tags($datas['contenu']))); ?></p>
-                            <p><a href="pages/commentaires.php">Commentaires</a></p>
+                            <p><a href="pages/commentaires.php?billet=<?php echo $datas['id']; ?>">Commentaires</a></p>
                         </div>
                     </div>          
                 <?php    
