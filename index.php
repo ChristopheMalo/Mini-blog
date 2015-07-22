@@ -92,6 +92,7 @@
                     <div class="panel-heading"><p><strong><?php echo htmlspecialchars(strip_tags($datas['titre'])); ?></strong> - Le <em><?php echo $new_date_format ; ?></em></p></div>
                     <div class="panel-body">
                         <p>-> <?php echo /*$datas['id'] . ' ' . */ htmlspecialchars(strip_tags($datas['contenu'])); ?></p>
+                        <p><a href="pages/commentaires.php">Commentaires</a></p>
                     </div>
                 </div>
                                 
