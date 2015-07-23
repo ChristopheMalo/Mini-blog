@@ -47,80 +47,86 @@
                 $req2->bindParam(':id_billet', $id_billet, PDO::PARAM_INT);
                 $req2->execute();
                 $datas_commentaires = $req2->fetchAll(PDO::FETCH_ASSOC);
-                ?>
-
-                <!-- Afficher le billet -->
-                <div class="panel panel-default">
-                    <div class="panel-heading"><p><strong><?php echo htmlspecialchars(strip_tags($datas_billet['titre'])); ?></strong> - <em>Le <?php echo $datas_billet['date_creation_billet_fr'] ; ?></em></p></div>
-                    <div class="panel-body">
-                        <p><?php echo nl2br(htmlspecialchars(strip_tags($datas_billet['contenu']))); ?></p>
-                    </div>
-                </div>
-
-                <!-- Afficher les commentaires -->
-                <h3 class="row">Les commentaires</h3>
-                <?php
-
-                if (empty($datas_commentaires)) {
-                    echo '<p>Il n\'y a aucun commentaire</p>';
-                }
                 
-                foreach ($datas_commentaires as $row) {
-                    $auteur           = htmlspecialchars(strip_tags($row['auteur']));
-                    $commentaire      = nl2br(htmlspecialchars(strip_tags($row['commentaire'])));
-                    $date_commentaire = $row['date_creation_commentaire_fr'];
+                // Gérer le cas de modification de l'url
+                if (empty($datas_billet)) { 
+                    echo '<p>il n\'existe pas de billet' . $id_billet . '</p>';
+                } else { // Si aucune modification afficher le billet et les commentaires
                 ?>
+                    <!-- Afficher le billet -->
                     <div class="panel panel-default">
-                        <div class="panel-heading"><p><strong><?php echo $auteur; ?></strong> - <em>Le <?php echo $date_commentaire; ?></em></p></div>
+                        <div class="panel-heading"><p><strong><?php echo htmlspecialchars(strip_tags($datas_billet['titre'])); ?></strong> - <em>Le <?php echo $datas_billet['date_creation_billet_fr'] ; ?></em></p></div>
                         <div class="panel-body">
-                            <p><?php echo $commentaire; ?></p>
+                            <p><?php echo nl2br(htmlspecialchars(strip_tags($datas_billet['contenu']))); ?></p>
                         </div>
                     </div>
+
+                    <!-- Afficher les commentaires -->
+                    <h3 class="row">Les commentaires</h3>
+                    <?php
+
+                    if (empty($datas_commentaires)) {
+                        echo '<p>Il n\'y a aucun commentaire</p>';
+                    }
+
+                    foreach ($datas_commentaires as $row) {
+                        $auteur           = htmlspecialchars(strip_tags($row['auteur']));
+                        $commentaire      = nl2br(htmlspecialchars(strip_tags($row['commentaire'])));
+                        $date_commentaire = $row['date_creation_commentaire_fr'];
+                    ?>
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><p><strong><?php echo $auteur; ?></strong> - <em>Le <?php echo $date_commentaire; ?></em></p></div>
+                            <div class="panel-body">
+                                <p><?php echo $commentaire; ?></p>
+                            </div>
+                        </div>
+                    <?php
+                    } // Fin du foreach
+                
+                    $req->closeCursor();  // Ferme le curseur, après affichage billet, permettant à la requête d'être de nouveau exécutée
+                    $req2->closeCursor(); // Ferme le curseur, après affichage commentaires, permettant à la requête d'être de nouveau exécutée
+                    $bdd = null;          // Fermeture de la connexion à la base
+                    ?>
+                
+                    <!-- Ajouter un commentaire au billet -->
+                    <!-- Formulaire de saisie -->
+                    <h3 class="row">Ajouter un commentaire</h3>
+                    <div class="row">
+                        <form class="form-horizontal col-md-12" method="post" action="commentaire_post.php?forBillet=<?php echo $id_billet; ?>">
+
+                            <!-- Champ de saisie texte une ligne -->
+                            <div class="form-group form-group-lg">
+                                <label for="pseudo" class="col-sm-2 control-label">Pseudo : </label>
+                                <div class="col-sm-10 focus"> 
+                                    <input class="form-control" <?php
+                                        /*
+                                         * si un pseudo existe dans le cookie,
+                                         * alors renseigne automatiquement la valeur du champ pseudo
+                                         * implicitement, si le cookie n'est pas détecté,
+                                         * la valeur du champ n'est pas renseignée
+                                         */
+                                        if (isset($_COOKIE['pseudo'])) {
+                                            $cookie_pseudo = htmlspecialchars(strip_tags($_COOKIE['pseudo']));
+                                            echo 'value="' . $cookie_pseudo . '"';
+                                        }
+                                        ?> type="text" name="pseudo" id="pseudo" placeholder="Ton pseudo" autofocus required>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-group-lg">
+                                <label for="commentaire" class="col-sm-2 control-label">Message : </label>
+                                <div class="col-sm-10 focus"> 
+                                    <textarea class="form-control" type="text" name="commentaire" id="message" placeholder="Ton commentaire" autofocus required rows="10"></textarea>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-default btn-lg pull-right clearfix">Envoyer</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
                 <?php
-                } // Fin du foreach
-                
-                $req->closeCursor();  // Ferme le curseur, après affichage billet, permettant à la requête d'être de nouveau exécutée
-                $req2->closeCursor(); // Ferme le curseur, après affichage commentaires, permettant à la requête d'être de nouveau exécutée
-                $bdd = null;          // Fermeture de la connexion à la base
+                } // Fin du else si $id_billet not empty
                 ?>
-                
-                <!-- Ajouter un commentaire au billet -->
-                <!-- Formulaire de saisie -->
-                <h3 class="row">Ajouter un commentaire</h3>
-                <div class="row">
-                    <form class="form-horizontal col-md-12" method="post" action="commentaire_post.php?forBillet=<?php echo $id_billet; ?>">
-
-                        <!-- Champ de saisie texte une ligne -->
-                        <div class="form-group form-group-lg">
-                            <label for="pseudo" class="col-sm-2 control-label">Pseudo : </label>
-                            <div class="col-sm-10 focus"> 
-                                <input class="form-control" <?php
-                                    /*
-                                     * si un pseudo existe dans le cookie,
-                                     * alors renseigne automatiquement la valeur du champ pseudo
-                                     * implicitement, si le cookie n'est pas détecté,
-                                     * la valeur du champ n'est pas renseignée
-                                     */
-                                    if (isset($_COOKIE['pseudo'])) {
-                                        $cookie_pseudo = htmlspecialchars(strip_tags($_COOKIE['pseudo']));
-                                        echo 'value="' . $cookie_pseudo . '"';
-                                    }
-                                    ?> type="text" name="pseudo" id="pseudo" placeholder="Ton pseudo" autofocus required>
-                            </div>
-                        </div>
-
-                        <div class="form-group form-group-lg">
-                            <label for="commentaire" class="col-sm-2 control-label">Message : </label>
-                            <div class="col-sm-10 focus"> 
-                                <textarea class="form-control" type="text" name="commentaire" id="message" placeholder="Ton commentaire" autofocus required rows="10"></textarea>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-default btn-lg pull-right clearfix">Envoyer</button>
-                        <div class="clearfix"></div>
-                    </form>
-                </div>
-                
                 <p><a href="../index.php">Retour à la liste des billets</a></p>
             </section>
         </div>
