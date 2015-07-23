@@ -17,6 +17,8 @@ Utilisation de :
 
 ##Ajout de fonctions supplémentaires :
 - Mise en forme avec Bootstrap
+- Utilisation include pour la configuration
+- Pagination dynamique PHP/Bootstrap pour les billets
 
 ##Attention
 Je sais que l'on ne doit pas mettre en ligne un fichier de configuration. Mais dans ce cas précis, l'exercice est développé en local.
