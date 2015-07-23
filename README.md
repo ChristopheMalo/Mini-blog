@@ -12,12 +12,11 @@ Les requêtes SQL sont des requêtes préparées.
 ##Résumé du TP :
 Utilisation de :
 - SELECT
-- INSERT
+- Jointure
 - Requêtes préparées
-- Transmission de données par formulaire et $_POST
 
 ##Ajout de fonctions supplémentaires :
-
+- Mise en forme avec Bootstrap
 
 ##Attention
 Je sais que l'on ne doit pas mettre en ligne un fichier de configuration. Mais dans ce cas précis, l'exercice est développé en local.
