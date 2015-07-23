@@ -88,7 +88,7 @@
                 <!-- Formulaire de saisie -->
                 <h3 class="row">Ajouter un commentaire</h3>
                 <div class="row">
-                    <form class="form-horizontal col-md-12" method="post" action="commentaire_post.php">
+                    <form class="form-horizontal col-md-12" method="post" action="commentaire_post.php?forBillet=<?php echo $id_billet; ?>">
 
                         <!-- Champ de saisie texte une ligne -->
                         <div class="form-group form-group-lg">
@@ -105,14 +105,14 @@
                                         $cookie_pseudo = htmlspecialchars(strip_tags($_COOKIE['pseudo']));
                                         echo 'value="' . $cookie_pseudo . '"';
                                     }
-                                    ?> type="text" name="pseudo" id="pseudo" placeholder="Ton pseudo" autofocus required />
+                                    ?> type="text" name="pseudo" id="pseudo" placeholder="Ton pseudo" autofocus required>
                             </div>
                         </div>
 
                         <div class="form-group form-group-lg">
                             <label for="commentaire" class="col-sm-2 control-label">Message : </label>
                             <div class="col-sm-10 focus"> 
-                                <input class="form-control" type="text" name="commentaire" id="message" placeholder="Ton commentaire" autofocus required />
+                                <input class="form-control" type="text" name="commentaire" id="message" placeholder="Ton commentaire" autofocus required>
                             </div>
                         </div>
 
