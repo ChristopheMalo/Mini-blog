@@ -40,7 +40,7 @@
                 $sql2 = "SELECT auteur, commentaire, DATE_FORMAT(date_creation_commentaire, '%d/%m/%Y à %Hh%imin%ss') AS date_creation_commentaire_fr
                          FROM commentaires
                          WHERE id_billet = :id_billet
-                         ORDER BY date_creation_commentaire
+                         ORDER BY date_creation_commentaire DESC
                         ";
                 
                 $req2 = $bdd->prepare($sql2);
