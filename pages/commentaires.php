@@ -112,7 +112,7 @@
                         <div class="form-group form-group-lg">
                             <label for="commentaire" class="col-sm-2 control-label">Message : </label>
                             <div class="col-sm-10 focus"> 
-                                <input class="form-control" type="text" name="commentaire" id="message" placeholder="Ton commentaire" autofocus required>
+                                <textarea class="form-control" type="text" name="commentaire" id="message" placeholder="Ton commentaire" autofocus required rows="10"></textarea>
                             </div>
                         </div>
 
