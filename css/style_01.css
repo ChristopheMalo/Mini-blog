@@ -1,0 +1,65 @@
+/**
+ * Mini-chat
+ * Développement d'un mini-blog - TP Openclassrooms
+ * Traitement des données en PHP
+ * Mise en forme du mini-blog avec Bootstrap
+ *
+ * @project     Mini-blog
+ * @namefile    style_01.css
+ * @fileversion 1.0.0
+ * @cssversion  css3
+ * @author      Christophe Malo
+ * @copyright   2015 by the author
+ * @license     no license - free to use - just link to my github - Thanks :)
+ * @mygithub    https://github.com/ChristopheMalo    
+*/
+/**
+
+/**
+ * -------------------------
+ * Generique
+ * -------------------------
+ */
+body {
+    margin: 20px;
+}
+
+form {
+    margin-bottom: 30px;
+}
+
+.row h3 {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/**
+ * -------------------------
+ * Smartphones
+ * -------------------------
+ */
+h1 {
+    font-size: 1.8em;
+}
+
+/**
+ * -------------------------
+ * Tablettes
+ * -------------------------
+ */
+@media (min-width: 768px) {
+    h1 {
+        font-size: 3.0em;
+    }
+}
+
+/**
+ * -------------------------
+ * Screen - Moyen / Grand
+ * -------------------------
+ */
+@media (min-width: 992px) {
+    h1 {
+        font-size: 3.5em;
+    }
+}
