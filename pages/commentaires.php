@@ -6,11 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Les derniers commentaires du blog</title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/style_01.css"  rel="stylesheet" type="text/css" media="all">
     </head>
     <body>
         <div class="container">
             <h1 class="row">Un blog basique</h1>
-            <h2 class="row">Le billet <titre du billet></h2>
+            <h2 class="row">Le billet</h2>
             <!-- Afficher le billet et les commentaires -->
             <section class="row">
                 <p><a href="../index.php">Retour à la liste des billets</a></p>
@@ -37,10 +38,10 @@
                  * Mais pour plus de clarté du code j'introduis un $sql2 et $req2
                  */
                 $sql2 = "SELECT auteur, commentaire, DATE_FORMAT(date_creation_commentaire, '%d/%m/%Y à %Hh%imin%ss') AS date_creation_commentaire_fr
-                        FROM commentaires
-                        WHERE id_billet = :id_billet
-                        ORDER BY date_creation_commentaire
-                       ";
+                         FROM commentaires
+                         WHERE id_billet = :id_billet
+                         ORDER BY date_creation_commentaire
+                        ";
                 
                 $req2 = $bdd->prepare($sql2);
                 $req2->bindParam(':id_billet', $id_billet, PDO::PARAM_INT);
@@ -57,7 +58,7 @@
                 </div>
 
                 <!-- Afficher les commentaires -->
-                <h3>Les commentaires</h3>
+                <h3 class="row">Les commentaires</h3>
                 <?php
 
                 if (empty($datas_commentaires)) {
@@ -78,11 +79,47 @@
                 <?php
                 } // Fin du foreach
                 
-                $req->closeCursor();  // Ferme le curseur après affichage billet, permettant à la requête d'être de nouveau exécutée
-                $req2->closeCursor(); // Ferme le curseur après affichage commentaires, permettant à la requête d'être de nouveau exécutée
+                $req->closeCursor();  // Ferme le curseur, après affichage billet, permettant à la requête d'être de nouveau exécutée
+                $req2->closeCursor(); // Ferme le curseur, après affichage commentaires, permettant à la requête d'être de nouveau exécutée
                 $bdd = null;          // Fermeture de la connexion à la base
                 ?>
                 
+                <!-- Ajouter un commentaire au billet -->
+                <!-- Formulaire de saisie -->
+                <h3 class="row">Ajouter un commentaire</h3>
+                <div class="row">
+                    <form class="form-horizontal col-md-12" method="post" action="commentaire_post.php">
+
+                        <!-- Champ de saisie texte une ligne -->
+                        <div class="form-group form-group-lg">
+                            <label for="pseudo" class="col-sm-2 control-label">Pseudo : </label>
+                            <div class="col-sm-10 focus"> 
+                                <input class="form-control" <?php
+                                    /*
+                                     * si un pseudo existe dans le cookie,
+                                     * alors renseigne automatiquement la valeur du champ pseudo
+                                     * implicitement, si le cookie n'est pas détecté,
+                                     * la valeur du champ n'est pas renseignée
+                                     */
+                                    if (isset($_COOKIE['pseudo'])) {
+                                        $cookie_pseudo = htmlspecialchars(strip_tags($_COOKIE['pseudo']));
+                                        echo 'value="' . $cookie_pseudo . '"';
+                                    }
+                                    ?> type="text" name="pseudo" id="pseudo" placeholder="Ton pseudo" autofocus required />
+                            </div>
+                        </div>
+
+                        <div class="form-group form-group-lg">
+                            <label for="commentaire" class="col-sm-2 control-label">Message : </label>
+                            <div class="col-sm-10 focus"> 
+                                <input class="form-control" type="text" name="commentaire" id="message" placeholder="Ton commentaire" autofocus required />
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-default btn-lg pull-right clearfix">Envoyer</button>
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
                 
                 <p><a href="../index.php">Retour à la liste des billets</a></p>
             </section>
