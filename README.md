@@ -20,6 +20,7 @@ Utilisation de :
 - Utilisation include pour la configuration
 - Pagination dynamique PHP/Bootstrap pour les billets
 - Formulaire pour ajouter des commentaires aux billets
+- Cookie pour retenir le pseudo saisie par l'utilisateur
 
 ##Attention
 Je sais que l'on ne doit pas mettre en ligne un fichier de configuration. Mais dans ce cas précis, l'exercice est développé en local.
