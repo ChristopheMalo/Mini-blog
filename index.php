@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Les derniers commentaires du blog</title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/style_01.css"  rel="stylesheet" type="text/css" media="all">
     </head>
     <body>
         <div class="container">
@@ -40,31 +41,7 @@
                 } else {
                     $current_page = 1; // Lors de l'affichage de la page index - 'page' "n'existe pas"
                 }
-                
-                /*
-                 * Pendant le dev - test d'affichage des différentes variables
-                 * Permet de vérifier les valeurs
-                 */   
-                // $_GET['page']
-                echo '$current_page';
-                echo '<pre>'; 
-                print_r($current_page);
-                echo '</pre>';
-
-                // Test DEV
-                echo 'Nombre de messages';
-                echo '<pre>'; 
-                //print_r($_GET['page']);
-                print_r($counter);
-                echo '</pre>';
-
-                echo 'Nombre de pages';
-                echo '<pre>'; 
-                print_r($number_of_pages);
-                echo '</pre>';
-                // Fin test dev
-                
-                
+                              
                 /*
                  * Lister les messages par page
                  * La variable $limit_start permet de générer dynamiquement la LIMIT dans la requête
@@ -86,20 +63,20 @@
                                    ");
                 
                 
-                // Afficher les messages
+                // Afficher les billets
                 while ($datas = $req->fetch()) {
                 ?>
                     <div class="panel panel-default">
-                        <div class="panel-heading"><p><strong><?php echo htmlspecialchars(strip_tags($datas['titre'])); ?></strong> - <em>Le <?php echo $datas['date_creation_billet_fr'] ; ?></em></p></div>
+                        <div class="panel-heading"><p><strong><?php echo htmlspecialchars(strip_tags($datas['titre'])); ?></strong> - <em>Le <?php echo $datas['date_creation_billet_fr']; ?></em></p></div>
                         <div class="panel-body">
-                            <p><?php echo /*$datas['id'] . ' ' . */ nl2br(htmlspecialchars(strip_tags($datas['contenu']))); ?></p>
+                            <p><?php echo nl2br(htmlspecialchars(strip_tags($datas['contenu']))); ?></p>
                             <p><a href="pages/commentaires.php?billet=<?php echo $datas['id']; ?>">Commentaires</a></p>
                         </div>
                     </div>          
                 <?php    
                 }
                 
-                $req->closeCursor();        // Ferme le curseur, permettant à la requête d'être de nouveau exécutée
+                $req->closeCursor();        // Ferme le curseur, après affichage des messages, permettant à la requête d'être de nouveau exécutée
                 $req_count->closecursor();  // Ferme le curseur, permettant à la requête d'être de nouveau exécutée
                 $bdd = null;                // Fermeture de la connexion à la base
                 ?>
